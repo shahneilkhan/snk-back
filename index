@@ -1,0 +1,3160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Shah Neil Khan — AI Software Engineer</title>
+
+  <meta
+    name="description"
+    content="Shah Neil Khan — AI Software Engineer building intelligent digital experiences, modern web systems, and premium digital products."
+  />
+
+  <meta name="theme-color" content="#06100a" />
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="https://raw.githubusercontent.com/shahneilkhan/asset/main/SNK%20LOGO.svg"
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root {
+      --bg: #06100a;
+      --bg-2: #0a1710;
+
+      --surface: #0d1c13;
+      --surface-2: #102519;
+
+      --text: #f7f6ef;
+      --muted: #aab3a8;
+
+      --gold: #d6ad55;
+      --gold-light: #f1d27d;
+
+      --green: #2d7a4d;
+      --green-bright: #4dbb77;
+
+      --border: rgba(214, 173, 85, 0.18);
+
+      --shadow:
+        0 30px 80px rgba(0, 0, 0, 0.35);
+
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+
+      --container: 1180px;
+    }
+
+    html[data-theme="light"] {
+      --bg: #f7f7f3;
+      --bg-2: #ffffff;
+
+      --surface: #ffffff;
+      --surface-2: #f1f4ef;
+
+      --text: #142018;
+      --muted: #5d685f;
+
+      --gold: #a77c22;
+      --gold-light: #bd9131;
+
+      --green: #1f6b43;
+      --green-bright: #318c59;
+
+      --border: rgba(167, 124, 34, 0.20);
+
+      --shadow:
+        0 30px 70px rgba(21, 35, 25, 0.10);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(
+          circle at 80% 0%,
+          rgba(77, 187, 119, 0.08),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 10% 20%,
+          rgba(214, 173, 85, 0.06),
+          transparent 25%
+        ),
+        var(--bg);
+
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition:
+        background 0.35s ease,
+        color 0.35s ease;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+
+      background: color-mix(
+        in srgb,
+        var(--bg) 82%,
+        transparent
+      );
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 78px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-size: 15px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+
+      transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .theme-toggle {
+      width: 42px;
+      height: 42px;
+
+      border: 1px solid var(--border);
+      border-radius: 50%;
+
+      background: var(--surface);
+      color: var(--text);
+
+      cursor: pointer;
+
+      display: grid;
+      place-items: center;
+
+      transition: 0.25s ease;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .talk-btn {
+      padding: 11px 17px;
+
+      border-radius: 999px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold-light),
+          var(--gold)
+        );
+
+      color: #10140f;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      transition: 0.25s ease;
+    }
+
+    .talk-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 10px 30px rgba(214, 173, 85, 0.18);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+
+      padding:
+        140px 0
+        80px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1.05fr)
+        minmax(360px, 0.95fr);
+
+      align-items: center;
+      gap: 80px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+
+      color: var(--gold-light);
+
+      font-size: 12px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: "";
+
+      width: 28px;
+      height: 1px;
+
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+
+      font-size:
+        clamp(48px, 7vw, 86px);
+
+      line-height: 0.98;
+
+      letter-spacing: -0.055em;
+
+      max-width: 750px;
+
+      margin-bottom: 26px;
+    }
+
+    .hero h1 .accent {
+      color: var(--gold-light);
+    }
+
+    .hero-description {
+      max-width: 650px;
+
+      color: var(--muted);
+
+      font-size: 17px;
+      line-height: 1.8;
+
+      margin-bottom: 34px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 48px;
+
+      padding: 0 20px;
+
+      border-radius: 999px;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold-light),
+          var(--gold)
+        );
+
+      color: #10140f;
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-image-frame {
+      position: relative;
+
+      border-radius: 34px;
+
+      padding: 10px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(214, 173, 85, 0.55),
+          rgba(45, 122, 77, 0.20),
+          transparent
+        );
+
+      box-shadow: var(--shadow);
+    }
+
+    .hero-image-wrap {
+      position: relative;
+
+      overflow: hidden;
+
+      border-radius: 27px;
+
+      background: var(--surface);
+      aspect-ratio: 4 / 5;
+    }
+
+    .hero-image-wrap::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.25),
+          transparent 45%
+        );
+
+      pointer-events: none;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      transition: transform 0.7s ease;
+    }
+
+    .hero-image-frame:hover .hero-image {
+      transform: scale(1.025);
+    }
+
+    .hero-badge {
+      position: absolute;
+
+      right: -22px;
+      bottom: 30px;
+
+      z-index: 5;
+
+      padding: 14px 17px;
+
+      border:
+        1px solid
+        rgba(214, 173, 85, 0.28);
+
+      background:
+        color-mix(
+          in srgb,
+          var(--surface) 90%,
+          transparent
+        );
+
+      backdrop-filter: blur(14px);
+
+      border-radius: 16px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .hero-badge strong {
+      display: block;
+
+      color: var(--gold-light);
+
+      font-size: 14px;
+
+      margin-bottom: 2px;
+    }
+
+    .hero-badge span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    section {
+      padding: 110px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+
+      gap: 30px;
+
+      margin-bottom: 42px;
+    }
+
+    .section-kicker {
+      color: var(--gold-light);
+
+      font-size: 11px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+
+      margin-bottom: 9px;
+    }
+
+    .section-title {
+      font-family: "Playfair Display", serif;
+
+      font-size:
+        clamp(34px, 5vw, 58px);
+
+      line-height: 1;
+
+      letter-spacing: -0.04em;
+    }
+
+    .section-description {
+      max-width: 480px;
+
+      color: var(--muted);
+
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* =========================
+       FEATURED
+    ========================= */
+
+    .featured-card {
+      position: relative;
+
+      overflow: hidden;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius-lg);
+
+      background: var(--surface);
+
+      box-shadow: var(--shadow);
+    }
+
+    .featured-link {
+      display: block;
+    }
+
+    .featured-image {
+      width: 100%;
+
+      aspect-ratio: 16 / 8;
+
+      object-fit: cover;
+
+      transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+    }
+
+    .featured-card:hover .featured-image {
+      transform: scale(1.025);
+      filter: saturate(1.04);
+    }
+
+    .featured-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      padding: 24px 26px;
+    }
+
+    .featured-info h3 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .featured-info p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .featured-arrow {
+      width: 42px;
+      height: 42px;
+
+      flex: 0 0 auto;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius: 50%;
+
+      display: grid;
+      place-items: center;
+
+      color: var(--gold-light);
+    }
+
+    /* =========================
+       ABOUT
+    ========================= */
+
+    .about-grid {
+      display: grid;
+
+      grid-template-columns:
+        1.15fr
+        0.85fr;
+
+      gap: 70px;
+
+      align-items: start;
+    }
+
+    .about-bio {
+      color: var(--muted);
+
+      font-size: 18px;
+      line-height: 1.9;
+    }
+
+    .about-meta {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 12px;
+    }
+
+    .meta-card {
+      padding: 20px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius-md);
+
+      background: var(--surface);
+    }
+
+    .meta-card span {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+
+      margin-bottom: 8px;
+    }
+
+    .meta-card strong {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .background-box {
+      margin-top: 18px;
+
+      padding: 22px;
+
+      border-radius:
+        var(--radius-md);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(45, 122, 77, 0.10),
+          rgba(214, 173, 85, 0.07)
+        );
+
+      border:
+        1px solid
+        var(--border);
+    }
+
+    .background-box span {
+      display: block;
+
+      color: var(--gold-light);
+
+      font-size: 11px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.12em;
+
+      margin-bottom: 8px;
+    }
+
+    .background-box p {
+      color: var(--muted);
+
+      font-size: 14px;
+    }
+
+    /* =========================
+       SKILLS
+    ========================= */
+
+    .skills-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap: 24px;
+    }
+
+    .skill-panel {
+      padding: 28px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius-lg);
+
+      background: var(--surface);
+    }
+
+    .skill-panel h3 {
+      font-size: 18px;
+
+      margin-bottom: 22px;
+    }
+
+    .skill-list {
+      display: grid;
+
+      gap: 10px;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      padding: 14px 15px;
+
+      border:
+        1px solid
+        rgba(214, 173, 85, 0.10);
+
+      border-radius: 12px;
+
+      background: var(--surface-2);
+    }
+
+    .skill-name {
+      color: var(--text);
+
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .skill-level {
+      flex: 0 0 auto;
+
+      color: var(--green-bright);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.08em;
+    }
+
+    /* =========================
+       BRANDS
+    ========================= */
+
+    .brand-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 16px;
+    }
+
+    .brand-card {
+      min-height: 190px;
+
+      display: flex;
+      flex-direction: column;
+
+      justify-content: space-between;
+
+      padding: 24px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius-md);
+
+      background: var(--surface);
+
+      transition:
+        transform 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .brand-card:hover {
+      transform: translateY(-5px);
+
+      border-color:
+        rgba(214, 173, 85, 0.42);
+    }
+
+    .brand-number {
+      color: var(--gold-light);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      letter-spacing: 0.15em;
+    }
+
+    .brand-card h3 {
+      font-size: 18px;
+
+      margin-top: 18px;
+    }
+
+    .brand-card p {
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.7;
+
+      margin-top: 8px;
+    }
+
+    .brand-link {
+      display: inline-flex;
+
+      color: var(--gold-light);
+
+      font-size: 12px;
+      font-weight: 800;
+
+      margin-top: 20px;
+    }
+
+    .coming-soon {
+      display: inline-flex;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.08em;
+
+      margin-top: 20px;
+    }
+
+    /* =========================
+       CONTACT
+    ========================= */
+
+    .contact-box {
+      position: relative;
+
+      overflow: hidden;
+
+      padding: 55px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius-lg);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(45, 122, 77, 0.13),
+          rgba(214, 173, 85, 0.09)
+        );
+    }
+
+    .contact-box::after {
+      content: "";
+
+      position: absolute;
+
+      width: 260px;
+      height: 260px;
+
+      right: -100px;
+      top: -100px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(214, 173, 85, 0.08);
+
+      filter: blur(5px);
+    }
+
+    .contact-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .contact-box h2 {
+      font-family: "Playfair Display", serif;
+
+      font-size:
+        clamp(36px, 5vw, 58px);
+
+      line-height: 1;
+
+      max-width: 700px;
+
+      margin-bottom: 18px;
+    }
+
+    .contact-box p {
+      max-width: 620px;
+
+      color: var(--muted);
+
+      font-size: 15px;
+
+      line-height: 1.8;
+
+      margin-bottom: 28px;
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .social-links {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 10px;
+
+      margin-top: 25px;
+    }
+
+    .social-link {
+      padding: 9px 13px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius: 999px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      font-weight: 700;
+
+      transition: 0.25s ease;
+    }
+
+    .social-link:hover {
+      color: var(--gold-light);
+
+      border-color:
+        rgba(214, 173, 85, 0.4);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      padding: 30px 0 40px;
+
+      border-top:
+        1px solid
+        var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+    }
+
+    .footer-inner p {
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+    .footer-brand {
+      color: var(--gold-light);
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 980px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+
+        gap: 55px;
+      }
+
+      .hero-copy {
+        max-width: 750px;
+      }
+
+      .hero-visual {
+        max-width: 650px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+      }
+
+      .brand-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        width:
+          min(
+            var(--container),
+            calc(100% - 28px)
+          );
+      }
+
+      .nav {
+        min-height: 68px;
+      }
+
+      .brand-name {
+        display: none;
+      }
+
+      .talk-btn {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero h1 {
+        font-size: 50px;
+      }
+
+      .hero-description {
+        font-size: 15px;
+      }
+
+      section {
+        padding: 80px 0;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-description {
+        margin-top: 18px;
+      }
+
+      .featured-image {
+        aspect-ratio: 16 / 10;
+      }
+
+      .featured-info {
+        padding: 20px;
+      }
+
+      .about-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-box {
+        padding: 30px 22px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .hero h1 {
+        font-size: 43px;
+      }
+
+      .hero-badge {
+        right: 12px;
+        bottom: 18px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header>
+    <div class="container nav">
+
+      <a href="#home" class="brand">
+        <img
+          src="https://raw.githubusercontent.com/shahneilkhan/asset/main/SNK%20LOGO.svg"
+          alt="SNK Logo"
+        />
+
+        <span class="brand-name">
+          Shah Neil Khan
+        </span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#brands">Brands</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+
+        <button
+          class="theme-toggle"
+          id="themeToggle"
+          type="button"
+          aria-label="Toggle theme"
+        >
+          ◐
+        </button>
+
+        <a
+          href="#contact"
+          class="talk-btn"
+        >
+          Let’s Talk
+        </a>
+
+      </div>
+
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section
+      class="hero"
+      id="home"
+    >
+
+      <div class="container hero-grid">
+
+        <div class="hero-copy">
+
+          <div class="eyebrow">
+            AI Software Engineer
+          </div>
+
+          <h1 id="heroHeadline">
+            Building
+            <span class="accent">
+              intelligent
+            </span>
+            digital experiences.
+          </h1>
+
+          <p
+            class="hero-description"
+            id="heroDescription"
+          >
+            I’m Shah Neil Khan, an AI Software Engineer focused on
+            building intelligent software, modern web systems,
+            context-driven experiences, and premium digital products.
+          </p>
+
+          <div class="hero-actions">
+
+            <a
+              href="#work"
+              class="btn btn-primary"
+              id="heroBtn1"
+            >
+              Explore My Work
+            </a>
+
+            <a
+              href="https://wa.me/8801705633700"
+              class="btn btn-secondary"
+              id="heroBtn2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Let’s Connect
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+          <div class="hero-image-frame">
+
+            <div class="hero-image-wrap">
+
+              <img
+                id="heroImage"
+                class="hero-image"
+                src="https://raw.githubusercontent.com/shahneilkhan/shahneilkhan.github.io/main/Frame%203.jpg"
+                alt="Shah Neil Khan"
+                loading="eager"
+              />
+
+            </div>
+
+          </div>
+
+          <div class="hero-badge">
+            <strong>SNK</strong>
+            <span>AI • Software • Design</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FEATURED WORK
+    ========================== -->
+
+    <section id="work">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+            <div class="section-kicker">
+              Featured Work
+            </div>
+
+            <h2 class="section-title">
+              Selected visual.
+            </h2>
+          </div>
+
+          <p class="section-description">
+            A closer look at one of the digital experiences
+            connected to the SNK ecosystem.
+          </p>
+
+        </div>
+
+
+        <div class="featured-card">
+
+          <a
+            class="featured-link"
+            href="https://snkbp.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+
+            <img
+              class="featured-image"
+              src="https://raw.githubusercontent.com/shahneilkhan/shahneilkhan.github.io/main/Frame%2014.jpg"
+              alt="SNK featured work"
+              loading="lazy"
+            />
+
+            <div class="featured-info">
+
+              <div>
+                <h3>
+                  SNK Digital Experience
+                </h3>
+
+                <p>
+                  Explore the experience at snkbp.com
+                </p>
+              </div>
+
+              <div class="featured-arrow">
+                ↗
+              </div>
+
+            </div>
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         ABOUT
+    ========================== -->
+
+    <section id="about">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+            <div class="section-kicker">
+              About
+            </div>
+
+            <h2 class="section-title">
+              Engineering with intent.
+            </h2>
+          </div>
+
+        </div>
+
+
+        <div class="about-grid">
+
+          <div>
+
+            <p
+              class="about-bio"
+              id="aboutBio"
+            >
+              I’m an AI Software Engineer and digital product builder
+              working across software engineering, AI, context engineering,
+              UI/UX, and modern web technologies. My approach combines
+              technical thinking with product-focused design to create
+              useful, reliable, and refined digital experiences.
+            </p>
+
+          </div>
+
+
+          <div>
+
+            <div class="about-meta">
+
+              <div class="meta-card">
+
+                <span>
+                  Based In
+                </span>
+
+                <strong id="aboutBasedIn">
+                  Bangladesh
+                </strong>
+
+              </div>
+
+
+              <div class="meta-card">
+
+                <span>
+                  Current Role
+                </span>
+
+                <strong id="aboutRole">
+                  AI Software Engineer
+                </strong>
+
+              </div>
+
+
+              <div class="meta-card">
+
+                <span>
+                  Working With
+                </span>
+
+                <strong id="aboutWorking">
+                  AI • Software • Digital Products
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <div class="background-box">
+
+              <span>
+                Background
+              </span>
+
+              <p id="aboutBackground">
+                Self-taught software engineering with a strong
+                focus on AI, digital products, design systems,
+                and modern web experiences.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         EXPERTISE / SKILLS
+    ========================== -->
+
+    <section id="expertise">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+
+            <div class="section-kicker">
+              Expertise
+            </div>
+
+            <h2 class="section-title">
+              Skills built to ship.
+            </h2>
+
+          </div>
+
+          <p class="section-description">
+            Engineering and design capabilities used across
+            digital products, websites, AI workflows, and
+            modern user experiences.
+          </p>
+
+        </div>
+
+
+        <div class="skills-grid">
+
+          <div class="skill-panel">
+
+            <h3>
+              Development & Engineering
+            </h3>
+
+            <div
+              class="skill-list"
+              id="developmentSkills"
+            >
+
+              <div class="skill-item">
+                <span class="skill-name">
+                  AI Software Engineering
+                </span>
+
+                <span class="skill-level">
+                  Advanced
+                </span>
+              </div>
+
+              <div class="skill-item">
+                <span class="skill-name">
+                  Context Engineering
+                </span>
+
+                <span class="skill-level">
+                  Advanced
+                </span>
+              </div>
+
+              <div class="skill-item">
+                <span class="skill-name">
+                  HTML / CSS
+                </span>
+
+                <span class="skill-level">
+                  Advanced
+                </span>
+              </div>
+
+              <div class="skill-item">
+                <span class="skill-name">
+                  JavaScript
+                </span>
+
+                <span class="skill-level">
+                  Advanced
+                </span>
+              </div>
+
+              <div class="skill-item">
+                <span class="skill-name">
+                  Web Security
+                </span>
+
+                <span class="skill-level">
+                  Advanced
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="skill-panel">
+
+            <h3>
+              Design & Product
+            </h3>
+
+            <div
+              class="skill-list"
+              id="designSkills"
+            >
+
+              <div class="skill-item">
+                <span class="skill-name">
+                  Figma
+                </span>
+
+                <span class="skill-level">
+                  Advanced
+                </span>
+              </div>
+
+              <div class="skill-item">
+                <span class="skill-name">
+                  UI Design
+                </span>
+
+                <span class="skill-level">
+                  Advanced
+                </span>
+              </div>
+
+              <div class="skill-item">
+                <span class="skill-name">
+                  UX Research
+                </span>
+
+                <span class="skill-level">
+                  Advanced
+                </span>
+              </div>
+
+              <div class="skill-item">
+                <span class="skill-name">
+                  Wireframing
+                </span>
+
+                <span class="skill-level">
+                  Advanced
+                </span>
+              </div>
+
+              <div class="skill-item">
+                <span class="skill-name">
+                  Prototyping
+                </span>
+
+                <span class="skill-level">
+                  Advanced
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         BRANDS
+    ========================== -->
+
+    <section id="brands">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+
+            <div class="section-kicker">
+              Brands & Work
+            </div>
+
+            <h2 class="section-title">
+              The SNK ecosystem.
+            </h2>
+
+          </div>
+
+          <p class="section-description">
+            Selected digital initiatives, platforms, and brands
+            connected to the Shah Neil Khan ecosystem.
+          </p>
+
+        </div>
+
+
+        <div
+          class="brand-grid"
+          id="brandGrid"
+        >
+
+          <a
+            class="brand-card"
+            href="https://websitesdeal.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+
+            <div>
+              <span class="brand-number">
+                01
+              </span>
+
+              <h3>
+                WebsitesDeal
+              </h3>
+
+              <p>
+                Digital website and web solutions.
+              </p>
+            </div>
+
+            <span class="brand-link">
+              Visit ↗
+            </span>
+
+          </a>
+
+
+          <a
+            class="brand-card"
+            href="https://www.tabayyuninstitute.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+
+            <div>
+              <span class="brand-number">
+                02
+              </span>
+
+              <h3>
+                Tabayyun Institute
+              </h3>
+
+              <p>
+                Educational and digital initiative.
+              </p>
+            </div>
+
+            <span class="brand-link">
+              Visit ↗
+            </span>
+
+          </a>
+
+
+          <a
+            class="brand-card"
+            href="https://snkitinstitute.github.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+
+            <div>
+              <span class="brand-number">
+                03
+              </span>
+
+              <h3>
+                SNK IT Institute
+              </h3>
+
+              <p>
+                Technology and learning ecosystem.
+              </p>
+            </div>
+
+            <span class="brand-link">
+              Visit ↗
+            </span>
+
+          </a>
+
+
+          <a
+            class="brand-card"
+            href="https://sarakatagency.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+
+            <div>
+              <span class="brand-number">
+                04
+              </span>
+
+              <h3>
+                Sarakāt Agency
+              </h3>
+
+              <p>
+                Creative and digital agency experience.
+              </p>
+            </div>
+
+            <span class="brand-link">
+              Visit ↗
+            </span>
+
+          </a>
+
+
+          <div class="brand-card">
+
+            <div>
+
+              <span class="brand-number">
+                05
+              </span>
+
+              <h3>
+                SNK Design
+              </h3>
+
+              <p>
+                Design-focused digital initiative.
+              </p>
+
+            </div>
+
+            <span class="coming-soon">
+              Coming Soon
+            </span>
+
+          </div>
+
+
+          <div class="brand-card">
+
+            <div>
+
+              <span class="brand-number">
+                06
+              </span>
+
+              <h3>
+                NeilUsha
+              </h3>
+
+              <p>
+                AI-powered communication and video platform concept.
+              </p>
+
+            </div>
+
+            <span class="coming-soon">
+              Coming Soon
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACT
+    ========================== -->
+
+    <section id="contact">
+
+      <div class="container">
+
+        <div class="contact-box">
+
+          <div class="contact-content">
+
+            <div class="section-kicker">
+              Contact
+            </div>
+
+            <h2>
+              Have an idea worth building?
+            </h2>
+
+            <p>
+              Let’s connect and turn the idea into a thoughtful,
+              functional, and refined digital experience.
+            </p>
+
+
+            <div class="contact-actions">
+
+              <a
+                id="whatsappLink"
+                class="btn btn-primary"
+                href="https://wa.me/8801705633700"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp Me
+              </a>
+
+              <a
+                class="btn btn-secondary"
+                href="mailto:hello@shahneilkhan.com"
+              >
+                Email Me
+              </a>
+
+            </div>
+
+
+            <div
+              class="social-links"
+              id="socialLinks"
+            >
+
+              <a
+                class="social-link"
+                href="https://www.linkedin.com/in/iamsnkbd/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+
+              <a
+                class="social-link"
+                href="https://github.com/iamsnkbd"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+
+              <a
+                class="social-link"
+                href="https://www.behance.net/iamsnkbd"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Behance
+              </a>
+
+              <a
+                class="social-link"
+                href="https://www.youtube.com/@iamsnkbd"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                YouTube
+              </a>
+
+              <a
+                class="social-link"
+                href="https://www.facebook.com/iamsnkbd"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Facebook
+              </a>
+
+              <a
+                class="social-link"
+                href="https://www.instagram.com/iamsnkbd/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Instagram
+              </a>
+
+              <a
+                class="social-link"
+                href="https://x.com/iamsnkbd"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                X
+              </a>
+
+              <a
+                class="social-link"
+                href="https://www.tiktok.com/@iamsnkbd"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                TikTok
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <div class="container footer-inner">
+
+      <p>
+        © <span id="year"></span>
+        Shah Neil Khan. All rights reserved.
+      </p>
+
+      <div class="footer-brand">
+        SNK
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <script>
+    /* =========================================================
+       FIREBASE CONFIG
+    ========================================================= */
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAEHzTjHfp7Q8q6Gt3RbV6wXVmG77PicaA",
+      authDomain: "shahneilkhan-2cdb6.firebaseapp.com",
+      projectId: "shahneilkhan-2cdb6",
+      storageBucket: "shahneilkhan-2cdb6.firebasestorage.app",
+      messagingSenderId: "227701805510",
+      appId: "1:227701805510:web:a4ea839a169ad1e3f0a2c7",
+      measurementId: "G-C171XM6HK6"
+    };
+
+
+    /* =========================================================
+       DEFAULT IMAGE
+    ========================================================= */
+
+    const DEFAULT_HERO_IMAGE =
+      "https://raw.githubusercontent.com/shahneilkhan/shahneilkhan.github.io/main/Frame%203.jpg";
+
+
+    /* =========================================================
+       FIREBASE INIT
+    ========================================================= */
+
+    let db = null;
+
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+    } catch (error) {
+      console.error(
+        "Firebase initialization error:",
+        error
+      );
+    }
+
+
+    /* =========================================================
+       DOM
+    ========================================================= */
+
+    const heroHeadline =
+      document.getElementById("heroHeadline");
+
+    const heroDescription =
+      document.getElementById("heroDescription");
+
+    const heroBtn1 =
+      document.getElementById("heroBtn1");
+
+    const heroBtn2 =
+      document.getElementById("heroBtn2");
+
+    const heroImage =
+      document.getElementById("heroImage");
+
+    const aboutBio =
+      document.getElementById("aboutBio");
+
+    const aboutBasedIn =
+      document.getElementById("aboutBasedIn");
+
+    const aboutRole =
+      document.getElementById("aboutRole");
+
+    const aboutWorking =
+      document.getElementById("aboutWorking");
+
+    const aboutBackground =
+      document.getElementById("aboutBackground");
+
+    const developmentSkills =
+      document.getElementById("developmentSkills");
+
+    const designSkills =
+      document.getElementById("designSkills");
+
+    const brandGrid =
+      document.getElementById("brandGrid");
+
+    const whatsappLink =
+      document.getElementById("whatsappLink");
+
+    const socialLinks =
+      document.getElementById("socialLinks");
+
+    const themeToggle =
+      document.getElementById("themeToggle");
+
+    const year =
+      document.getElementById("year");
+
+
+    /* =========================================================
+       YEAR
+    ========================================================= */
+
+    year.textContent =
+      new Date().getFullYear();
+
+
+    /* =========================================================
+       THEME
+    ========================================================= */
+
+    const savedTheme =
+      localStorage.getItem("snk-theme");
+
+    if (savedTheme === "light") {
+      document.documentElement.setAttribute(
+        "data-theme",
+        "light"
+      );
+    } else {
+      document.documentElement.setAttribute(
+        "data-theme",
+        "dark"
+      );
+    }
+
+
+    function updateThemeIcon() {
+
+      const currentTheme =
+        document.documentElement.getAttribute(
+          "data-theme"
+        );
+
+      themeToggle.textContent =
+        currentTheme === "light"
+          ? "☀"
+          : "◐";
+    }
+
+
+    updateThemeIcon();
+
+
+    themeToggle.addEventListener(
+      "click",
+      () => {
+
+        const currentTheme =
+          document.documentElement.getAttribute(
+            "data-theme"
+          );
+
+        const nextTheme =
+          currentTheme === "light"
+            ? "dark"
+            : "light";
+
+        document.documentElement.setAttribute(
+          "data-theme",
+          nextTheme
+        );
+
+        localStorage.setItem(
+          "snk-theme",
+          nextTheme
+        );
+
+        updateThemeIcon();
+      }
+    );
+
+
+    /* =========================================================
+       TEXT CLEANER
+       Removes old Markdown / formatting from Firestore data.
+    ========================================================= */
+
+    function cleanText(value) {
+
+      return String(value ?? "")
+        .replace(/^\s*#{1,6}\s*/gm, "")
+        .replace(/\*\*/g, "")
+        .replace(/__/g, "")
+        .replace(/`/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+
+    /* =========================================================
+       SKILL NORMALIZER
+       
+       IMPORTANT:
+       EVERY SKILL IS FORCED TO "Advanced".
+       
+       This means Firestore can contain:
+       Beginner
+       Intermediate
+       Advanced
+       **Advanced**
+       **Intermediate**Intermediate
+       etc.
+
+       The website will ALWAYS display:
+       Advanced
+    ========================================================= */
+
+    function normalizeSkill(skill) {
+
+      let rawName = "";
+
+      if (
+        typeof skill === "string"
+      ) {
+
+        rawName = cleanText(skill);
+
+      } else if (
+        skill &&
+        typeof skill === "object"
+      ) {
+
+        rawName =
+          cleanText(skill.name || "");
+
+      }
+
+
+      /*
+       * Support:
+       * Name : Level
+       */
+
+      const colonMatch =
+        rawName.match(
+          /^(.*?)\s*:\s*(Beginner|Intermediate|Advanced)\s*$/i
+        );
+
+
+      if (colonMatch) {
+
+        rawName =
+          colonMatch[1].trim();
+
+      }
+
+
+      /*
+       * Remove duplicated trailing level
+       *
+       * Example:
+       *
+       * GitHub / DeploymentIntermediate
+       *
+       * becomes:
+       *
+       * GitHub / Deployment
+       */
+
+      rawName =
+        rawName.replace(
+          /(Beginner|Intermediate|Advanced)\s*$/i,
+          ""
+        ).trim();
+
+
+      /*
+       * Remove trailing separators.
+       */
+
+      rawName =
+        rawName
+          .replace(/\s*[:\-|]\s*$/g, "")
+          .trim();
+
+
+      /*
+       * Final fallback.
+       */
+
+      if (!rawName) {
+        rawName = "Skill";
+      }
+
+
+      /*
+       * ALWAYS ADVANCED.
+       */
+
+      return {
+        name: rawName,
+        level: "Advanced"
+      };
+    }
+
+
+    /* =========================================================
+       RENDER SKILLS
+       
+       EVERYTHING IS ADVANCED.
+    ========================================================= */
+
+    function renderSkills(
+      container,
+      skills
+    ) {
+
+      if (
+        !container ||
+        !Array.isArray(skills) ||
+        skills.length === 0
+      ) {
+        return;
+      }
+
+
+      container.innerHTML = "";
+
+
+      skills.forEach(
+        (skill) => {
+
+          const normalized =
+            normalizeSkill(skill);
+
+
+          const item =
+            document.createElement("div");
+
+          item.className =
+            "skill-item";
+
+
+          const name =
+            document.createElement("span");
+
+          name.className =
+            "skill-name";
+
+          name.textContent =
+            normalized.name;
+
+
+          const level =
+            document.createElement("span");
+
+          level.className =
+            "skill-level";
+
+          /*
+           * FORCE ADVANCED
+           */
+
+          level.textContent =
+            "Advanced";
+
+
+          item.appendChild(name);
+          item.appendChild(level);
+
+          container.appendChild(item);
+        }
+      );
+    }
+
+
+    /* =========================================================
+       HERO HEADLINE
+    ========================================================= */
+
+    function renderHeadline(text) {
+
+      const cleaned =
+        cleanText(text);
+
+      if (!cleaned) {
+        return;
+      }
+
+
+      /*
+       * Safe rendering.
+       */
+
+      heroHeadline.textContent =
+        cleaned;
+
+
+      /*
+       * Highlight "intelligent"
+       * when available.
+       */
+
+      const words =
+        cleaned.split(/\s+/);
+
+      const intelligentIndex =
+        words.findIndex(
+          word =>
+            word
+              .toLowerCase()
+              .includes("intelligent")
+        );
+
+
+      if (intelligentIndex !== -1) {
+
+        const before =
+          words
+            .slice(0, intelligentIndex)
+            .join(" ");
+
+        const word =
+          words[intelligentIndex];
+
+        const after =
+          words
+            .slice(intelligentIndex + 1)
+            .join(" ");
+
+
+        heroHeadline.innerHTML =
+          `${escapeHTML(before)}
+          ${before ? " " : ""}
+          <span class="accent">
+            ${escapeHTML(word)}
+          </span>
+          ${after ? " " + escapeHTML(after) : ""}`;
+      }
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHTML(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    async function loadHero() {
+
+      if (!db) return;
+
+
+      try {
+
+        const snapshot =
+          await db
+            .collection("content")
+            .doc("hero")
+            .get();
+
+
+        if (!snapshot.exists) {
+          return;
+        }
+
+
+        const data =
+          snapshot.data();
+
+
+        if (data.headline) {
+
+          renderHeadline(
+            data.headline
+          );
+
+        }
+
+
+        if (data.description) {
+
+          heroDescription.textContent =
+            cleanText(
+              data.description
+            );
+
+        }
+
+
+        if (data.btn1Text) {
+
+          heroBtn1.textContent =
+            cleanText(
+              data.btn1Text
+            );
+
+        }
+
+
+        if (data.btn1Link) {
+
+          heroBtn1.href =
+            String(
+              data.btn1Link
+            ).trim();
+
+        }
+
+
+        if (data.btn2Text) {
+
+          heroBtn2.textContent =
+            cleanText(
+              data.btn2Text
+            );
+
+        }
+
+
+        if (data.btn2Link) {
+
+          heroBtn2.href =
+            String(
+              data.btn2Link
+            ).trim();
+
+        }
+
+
+        if (
+          data.imageUrl &&
+          String(data.imageUrl).trim()
+        ) {
+
+          heroImage.src =
+            String(
+              data.imageUrl
+            ).trim();
+
+        } else {
+
+          heroImage.src =
+            DEFAULT_HERO_IMAGE;
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Hero loading error:",
+          error
+        );
+
+        heroImage.src =
+          DEFAULT_HERO_IMAGE;
+      }
+    }
+
+
+    /* =========================================================
+       HERO IMAGE FALLBACK
+    ========================================================= */
+
+    heroImage.addEventListener(
+      "error",
+      () => {
+
+        if (
+          heroImage.src !==
+          DEFAULT_HERO_IMAGE
+        ) {
+
+          heroImage.src =
+            DEFAULT_HERO_IMAGE;
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       ABOUT
+    ========================================================= */
+
+    async function loadAbout() {
+
+      if (!db) return;
+
+
+      try {
+
+        const snapshot =
+          await db
+            .collection("content")
+            .doc("about")
+            .get();
+
+
+        if (!snapshot.exists) {
+          return;
+        }
+
+
+        const data =
+          snapshot.data();
+
+
+        if (data.bio) {
+
+          aboutBio.textContent =
+            cleanText(
+              data.bio
+            );
+
+        }
+
+
+        if (data.basedIn) {
+
+          aboutBasedIn.textContent =
+            cleanText(
+              data.basedIn
+            );
+
+        }
+
+
+        if (data.currentRole) {
+
+          aboutRole.textContent =
+            cleanText(
+              data.currentRole
+            );
+
+        }
+
+
+        if (data.workingWith) {
+
+          aboutWorking.textContent =
+            cleanText(
+              data.workingWith
+            );
+
+        }
+
+
+        if (data.background) {
+
+          aboutBackground.textContent =
+            cleanText(
+              data.background
+            );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "About loading error:",
+          error
+        );
+      }
+    }
+
+
+    /* =========================================================
+       SKILLS
+       
+       IMPORTANT:
+       Firestore data is read normally,
+       BUT LEVEL IS ALWAYS SHOWN AS ADVANCED.
+    ========================================================= */
+
+    async function loadSkills() {
+
+      if (!db) return;
+
+
+      try {
+
+        const snapshot =
+          await db
+            .collection("content")
+            .doc("skills")
+            .get();
+
+
+        if (!snapshot.exists) {
+          return;
+        }
+
+
+        const data =
+          snapshot.data();
+
+
+        /*
+         * Development skills
+         */
+
+        if (
+          Array.isArray(
+            data.development
+          )
+        ) {
+
+          renderSkills(
+            developmentSkills,
+            data.development
+          );
+
+        }
+
+
+        /*
+         * Design skills
+         */
+
+        if (
+          Array.isArray(
+            data.design
+          )
+        ) {
+
+          renderSkills(
+            designSkills,
+            data.design
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Skills loading error:",
+          error
+        );
+      }
+    }
+
+
+    /* =========================================================
+       BRANDS
+    ========================================================= */
+
+    async function loadBrands() {
+
+      if (!db) return;
+
+
+      try {
+
+        const snapshot =
+          await db
+            .collection("content")
+            .doc("brands")
+            .get();
+
+
+        if (!snapshot.exists) {
+          return;
+        }
+
+
+        const data =
+          snapshot.data();
+
+
+        if (
+          !Array.isArray(
+            data.items
+          ) ||
+          data.items.length === 0
+        ) {
+          return;
+        }
+
+
+        brandGrid.innerHTML = "";
+
+
+        data.items.forEach(
+          (brand, index) => {
+
+            const card =
+              document.createElement(
+                brand.link
+                  ? "a"
+                  : "div"
+              );
+
+
+            card.className =
+              "brand-card";
+
+
+            if (brand.link) {
+
+              card.href =
+                String(
+                  brand.link
+                ).trim();
+
+              card.target =
+                "_blank";
+
+              card.rel =
+                "noopener noreferrer";
+            }
+
+
+            const content =
+              document.createElement(
+                "div"
+              );
+
+
+            const number =
+              document.createElement(
+                "span"
+              );
+
+            number.className =
+              "brand-number";
+
+            number.textContent =
+              String(
+                index + 1
+              ).padStart(2, "0");
+
+
+            const title =
+              document.createElement(
+                "h3"
+              );
+
+            title.textContent =
+              cleanText(
+                brand.name ||
+                "Untitled"
+              );
+
+
+            const description =
+              document.createElement(
+                "p"
+              );
+
+            description.textContent =
+              cleanText(
+                brand.description ||
+                ""
+              );
+
+
+            content.appendChild(
+              number
+            );
+
+            content.appendChild(
+              title
+            );
+
+            content.appendChild(
+              description
+            );
+
+
+            card.appendChild(
+              content
+            );
+
+
+            if (
+              brand.comingSoon === true
+            ) {
+
+              const badge =
+                document.createElement(
+                  "span"
+                );
+
+              badge.className =
+                "coming-soon";
+
+              badge.textContent =
+                "Coming Soon";
+
+              card.appendChild(
+                badge
+              );
+
+            } else if (
+              brand.link
+            ) {
+
+              const link =
+                document.createElement(
+                  "span"
+                );
+
+              link.className =
+                "brand-link";
+
+              link.textContent =
+                "Visit ↗";
+
+              card.appendChild(
+                link
+              );
+            }
+
+
+            brandGrid.appendChild(
+              card
+            );
+
+          }
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Brands loading error:",
+          error
+        );
+      }
+    }
+
+
+    /* =========================================================
+       CONTACT
+    ========================================================= */
+
+    async function loadContact() {
+
+      if (!db) return;
+
+
+      try {
+
+        const snapshot =
+          await db
+            .collection("content")
+            .doc("contact")
+            .get();
+
+
+        if (!snapshot.exists) {
+          return;
+        }
+
+
+        const data =
+          snapshot.data();
+
+
+        /*
+         * WhatsApp
+         */
+
+        if (data.whatsapp) {
+
+          let whatsapp =
+            String(
+              data.whatsapp
+            ).trim();
+
+
+          if (
+            whatsapp.startsWith("http")
+          ) {
+
+            whatsappLink.href =
+              whatsapp;
+
+          } else {
+
+            whatsapp =
+              whatsapp.replace(
+                /[^0-9]/g,
+                ""
+              );
+
+
+            whatsappLink.href =
+              `https://wa.me/${whatsapp}`;
+          }
+        }
+
+
+        /*
+         * Social links
+         */
+
+        const socials = [
+          {
+            name: "LinkedIn",
+            key: "linkedin"
+          },
+          {
+            name: "GitHub",
+            key: "github"
+          },
+          {
+            name: "Behance",
+            key: "behance"
+          },
+          {
+            name: "YouTube",
+            key: "youtube"
+          },
+          {
+            name: "Facebook",
+            key: "facebook"
+          },
+          {
+            name: "Instagram",
+            key: "instagram"
+          },
+          {
+            name: "X",
+            key: "twitter"
+          },
+          {
+            name: "TikTok",
+            key: "tiktok"
+          }
+        ];
+
+
+        const existingLinks =
+          socialLinks.querySelectorAll(
+            "a"
+          );
+
+
+        existingLinks.forEach(
+          link => link.remove()
+        );
+
+
+        socials.forEach(
+          social => {
+
+            if (
+              !data[social.key]
+            ) {
+              return;
+            }
+
+
+            const link =
+              document.createElement(
+                "a"
+              );
+
+
+            link.className =
+              "social-link";
+
+
+            link.textContent =
+              social.name;
+
+
+            link.href =
+              String(
+                data[social.key]
+              ).trim();
+
+
+            link.target =
+              "_blank";
+
+
+            link.rel =
+              "noopener noreferrer";
+
+
+            socialLinks.appendChild(
+              link
+            );
+
+          }
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Contact loading error:",
+          error
+        );
+      }
+    }
+
+
+    /* =========================================================
+       LOAD EVERYTHING
+    ========================================================= */
+
+    async function loadSiteData() {
+
+      await Promise.all([
+        loadHero(),
+        loadAbout(),
+        loadSkills(),
+        loadBrands(),
+        loadContact()
+      ]);
+
+    }
+
+
+    loadSiteData();
+  </script>
+
+</body>
+</html>
